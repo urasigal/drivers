@@ -60,28 +60,28 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 	
 	public DriverReslut performOperationOnAwsS3(Opereation operation, AwsConnectorDriver.OperationContainer operationParams) throws Exception
 	{
-		Properties props = System.getProperties();
-		String accessKey = FeederPostKeyDriver.getStringFromUrl("acc_key");
-		String secretKey =  FeederPostKeyDriver.getStringFromUrl("sec_key");
-        AmazonS3 s3 = new AmazonS3Client();
-        Region usEast1 = Region.getRegion(Regions.US_EAST_1);
+		String accessKey			= FeederPostKeyDriver.getStringFromUrl("acc_key");
+		String secretKey			=  FeederPostKeyDriver.getStringFromUrl("sec_key");
+		Properties props			= System.getProperties();
+		props.setProperty("aws.accessKeyId", accessKey);
+		props.setProperty("aws.secretKey", secretKey);
+        AmazonS3 s3				= new AmazonS3Client();
+        Region usEast1			= Region.getRegion(Regions.US_EAST_1);
         s3.setRegion(usEast1);
 
         switch (operation) {
-	        case DELETE_FROM_S3:
-	        	ObjectListing objectList = s3.listObjects( operationParams.params.get("bucketName"), operationParams.params.get("prefix"));
-	            List<S3ObjectSummary> objectSummeryList =  objectList.getObjectSummaries();
-	            String[] keysList = new String[ objectSummeryList.size() ];
-	            int count = 0;
-	            for( S3ObjectSummary summery : objectSummeryList ) {
-	                keysList[count++] = summery.getKey();
-	            }
-	            DeleteObjectsRequest deleteObjectsRequest = 
-	            new DeleteObjectsRequest( operationParams.params.get("bucketName") ).withKeys( keysList );
-	            s3.deleteObjects(deleteObjectsRequest);
+		        case DELETE_FOLDER_FROM_S3:	ObjectListing objectList = s3.listObjects( operationParams.params.get("bucketName"), operationParams.params.get("prefix"));
+															            List<S3ObjectSummary> objectSummeryList =  objectList.getObjectSummaries();
+															            String[] keysList = new String[ objectSummeryList.size() ];
+															            int count = 0;
+															            for( S3ObjectSummary summery : objectSummeryList ) {
+															                keysList[count++] = summery.getKey();
+															            }
+															            DeleteObjectsRequest deleteObjectsRequest = 
+															            new DeleteObjectsRequest( operationParams.params.get("bucketName") ).withKeys( keysList );
+															            s3.deleteObjects(deleteObjectsRequest);
 	            break;     
-	        default:
-	            return new DriverReslut("Operation is not found");
+		        default: 											 return new DriverReslut("Operation is not found");
 	        }
 		return new DriverReslut("The object assumed to be deleted from AWS s3 bucket"); 
 	}
@@ -93,7 +93,6 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 		connectorDriver.performOperationOnAwsS3(Opereation.valueOf("DELETE_FROM_S3"), 
 				new AwsConnectorDriver.OperationContainer (params));
 	}
-	
 	public static class OperationContainer{
 		public HashMap<String, String> params = new HashMap();
 		
