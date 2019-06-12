@@ -85,6 +85,7 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 	        }
 		return new DriverReslut("The object assumed to be deleted from AWS s3 bucket"); 
 	}
+	
 	public static void main(String[] args) throws Exception  {
 		AwsConnectorDriver connectorDriver  = new AwsConnectorDriver();
 		HashMap<String, String> params = new HashMap();
