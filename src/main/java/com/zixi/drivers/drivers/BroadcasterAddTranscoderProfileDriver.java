@@ -51,8 +51,8 @@ public class BroadcasterAddTranscoderProfileDriver extends
 		if (mode.equals("h.264") || mode.equals("mpeg2") || mode.equals("h.265"))
 		{
 			return new DriverReslut(apiworker.sendGet("http://" + login_ip + ":" + uiport + "/zixi/add_h264_profile.json?profile_name="
-			+ profile_name + "&enc=" + enc + "&bitrate=" + bitrate + "&rgop=" + gop + "&fixed_gop=" + fixed_gop + "&closed_gop=" + closed_gop + "&copy_gop=" + copy_gop + "&performance=" + performance
-			+ "&b_frames=" + b_frames + "&rame_type=" + frame_type + "&profile=" + profile + "&level=" + level + "&bitrate_mode=" + bitrate_mode + "&ref_frames=" + ref_frames
+			+ profile_name + "&enc=" + enc + "&bitrate=" + bitrate + "&gop=" + gop + "&fixed_gop=" + fixed_gop + "&closed_gop=" + closed_gop + "&copy_gop=" + copy_gop + "&performance=" + performance
+			+ "&b_frames=" + b_frames + "&frame_type=" + frame_type + "&profile=" + profile + "&level=" + level + "&bitrate_mode=" + bitrate_mode + "&ref_frames=" + ref_frames
 			+ "&hrd=" + hrd + "&idr_int=" + idr_int + "&cavlc=" + cavlc + "&brightness=" + brightness + "&contrast=" + contrast + "&fps="+ fps + "&width=" + width + "&height=" + height +
 			"&crf=" + crf + "&tune=" + tune +"&keep_ar=" + keep_ar + "&max_bitrate=" + max_bitrate + "&264_two_pass=" + x264_two_pass +"&max_qp=" + max_qp + "&bpp=" + bpp,
 		 "", ADD_TRANSCODER_PROFILE, responseCookieContainer, login_ip, this, uiport));
