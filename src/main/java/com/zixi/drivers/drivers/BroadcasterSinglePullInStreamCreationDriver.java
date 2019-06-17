@@ -34,12 +34,13 @@ public class BroadcasterSinglePullInStreamCreationDriver extends BroadcasterLogg
 			String fec_adaptive, String mcast_ttl, String on, String func, String fec_force, String mcast_out, 
 			String propertiesFile, String mtu, String rec_duration, String rec_template, String s3, String s3_url, String s3_no_tls) throws Exception { 
 				
-				final String accessKey = FeederPostKeyDriver.getStringFromUrl("acc_key");
-				final String secretKey =  FeederPostKeyDriver.getStringFromUrl("sec_key");
+				 String accessKey = null;
+				 String secretKey = null;
 				// Get cred
 				if(s3.equals("1"))
 				{
-					
+					accessKey = FeederPostKeyDriver.getStringFromUrl("acc_key");
+					 secretKey =  FeederPostKeyDriver.getStringFromUrl("sec_key");
 				}
 		
 				testParameters = new TestParameters("userName:" + userName, "userPass:" + userPass, "Host:" + Host, "loin_ip:" + loin_ip, "id:" + id,
@@ -51,7 +52,7 @@ public class BroadcasterSinglePullInStreamCreationDriver extends BroadcasterLogg
 				responseCookieContainer = broadcasterInitialSecuredLogin.sendGet("http://" + loin_ip + ":" + uiport + "/login.htm", userName, userPass, loin_ip, uiport);
 				
 				// Adds a single pull stream.
-				driverReslut = new DriverReslut(createPullInWithRandomNameS3Param(userName, userPass, Host, loin_ip, id, source, uiport, pull_port, latency, fec_latency,
+				driverReslut = new DriverReslut( createPullInWithRandomNameS3Param (userName, userPass, Host, loin_ip, id, source, uiport, pull_port, latency, fec_latency,
 				fec_overhead, mcast_force, time_shift, nic, max_outputs, type, password, mcast_port, complete, mcast_ip, fec_adaptive, mcast_ttl,
 				on, func, fec_force, mcast_out, mtu, rec_duration, rec_template, s3, s3_url, s3_no_tls, accessKey, secretKey ));
 				
@@ -133,7 +134,7 @@ public class BroadcasterSinglePullInStreamCreationDriver extends BroadcasterLogg
 			String mcast_ip, String fec_adaptive, String mcast_ttl, String on,String func, String fec_force, String mcast_out, String mtu,
 			String rec_duration, String rec_template, String s3, String s3_url, String s3_no_tls, String accessKey, String secretKey ) {
 				
-				String request = "http://" + loin_ip + ":" + uiport + "/zixi/add_stream.json?func=" + func + "&type=" + type + "&d=" + id + "&max_outputs=" + max_outputs +
+				String request = "http://" + loin_ip + ":" + uiport + "/zixi/add_stream.json?func=" + func + "&type=" + type + "&id=" + id + "&max_outputs=" + max_outputs +
 				"&mcast_out=" + mcast_out + "&mcast_force=" + mcast_force + "&mcast_ip=" + mcast_ip + "&mcast_port=" + mcast_port + 
 				"&mcast_ttl=" + mcast_ttl + "&time_shift="  + time_shift + "&host0=" + Host + "&pull-port=" + pull_port + "&source=" + source + "&password=" + password
 				+ "&latency=" + latency + "&nic=" + nic + "&fec_overhead=" + fec_overhead + "&fec_latency=" + fec_latency
