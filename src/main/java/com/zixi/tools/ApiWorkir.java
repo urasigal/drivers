@@ -543,6 +543,7 @@ public class ApiWorkir {
 		}
 		
 	public String sendGet(String url, String id, int mode, String[] responseCookieContainer, String HOST, Object caller, String uiport) {
+		System.out.println("WEB API request URL: " + url);
 		StringBuffer response = new StringBuffer();
 		try {
 			URL destUrl 		= new URL(url);
