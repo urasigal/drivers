@@ -66,7 +66,7 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 		props.setProperty("aws.accessKeyId", accessKey);
 		props.setProperty("aws.secretKey", secretKey);
         AmazonS3 s3				= new AmazonS3Client();
-        Region usEast1			= Region.getRegion(Regions.US_EAST_1);
+        Region usEast1			= Region.getRegion(Regions.US_EAST_2);
         s3.setRegion(usEast1);
 
         
