@@ -42,4 +42,21 @@ public class BroadcasterInputStreamManipulatorDriver  extends BroadcasterLoggabl
 		
 		return new DriverReslut("stream recording is failed");
 	}
+	
+	
+	public DriverReslut startRecording( String userName, String userPass, String login_ip, String uiport, String id ) throws Exception
+	{
+		// Logging to broadcaster server.
+		responseCookieContainer = broadcasterInitialSecuredLogin.sendGet("http://" + login_ip + ":" + uiport + "/login.htm", userName, userPass, login_ip, uiport);
+		
+		String firstRes =  new DriverReslut(apiworker.sendGet("http://"+ login_ip +":"+ uiport + "/set_live_recording.json?id=" + id + "&on=" + 1, id, RECORDING,
+		responseCookieContainer, login_ip, this, uiport)).getResult();
+		
+		if( (firstRes).equals("1") )
+		{
+			return new DriverReslut("stream was successfully recorded");
+		}
+		
+		return new DriverReslut("stream recording is failed");
+	}
 }
