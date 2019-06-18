@@ -85,6 +85,7 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 															            s3.deleteObjects(deleteObjectsRequest);
 															            return new DriverReslut("The object assumed to be deleted from AWS s3 bucket"); 
 		        
+		        
 		        case LIST_S3_FOLDER: 					objectList =   s3.listObjects( operationParams.params.get("bucketName"), operationParams.params.get("prefix"));
 																        objectSummeryList =  objectList.getObjectSummaries();
 															            int numberOfUploadedFilesBefore =  objectSummeryList.size();
