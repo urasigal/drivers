@@ -69,9 +69,12 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
         Region usEast1			= Region.getRegion(Regions.US_EAST_1);
         s3.setRegion(usEast1);
 
+        
+        ObjectListing objectList = null;
+        List<S3ObjectSummary> objectSummeryList = null;
         switch (operation) {
-		        case DELETE_FOLDER_FROM_S3:	ObjectListing objectList = s3.listObjects( operationParams.params.get("bucketName"), operationParams.params.get("prefix"));
-															            List<S3ObjectSummary> objectSummeryList =  objectList.getObjectSummaries();
+		        case DELETE_FOLDER_FROM_S3:	objectList = s3.listObjects( operationParams.params.get("bucketName"), operationParams.params.get("prefix"));
+															            objectSummeryList =  objectList.getObjectSummaries();
 															            String[] keysList = new String[ objectSummeryList.size() ];
 															            int count = 0;
 															            for( S3ObjectSummary summery : objectSummeryList ) {
@@ -80,11 +83,26 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 															            DeleteObjectsRequest deleteObjectsRequest = 
 															            new DeleteObjectsRequest( operationParams.params.get("bucketName") ).withKeys( keysList );
 															            s3.deleteObjects(deleteObjectsRequest);
+															            return new DriverReslut("The object assumed to be deleted from AWS s3 bucket"); 
+		        
+		        case LIST_S3_FOLDER: 					objectList =   s3.listObjects( operationParams.params.get("bucketName"), operationParams.params.get("prefix"));
+																        objectSummeryList =  objectList.getObjectSummaries();
+															            int numberOfUploadedFilesBefore =  objectSummeryList.size();
+															            int waiting  = Integer.parseInt( operationParams.params.get("test_duration"));
+															            Thread.sleep(waiting);
+															            objectList =   s3.listObjects( operationParams.params.get("bucketName"), operationParams.params.get("prefix"));
+																        objectSummeryList =  objectList.getObjectSummaries();
+															            int numberOfUploadedFilesAfter =  objectSummeryList.size();
+															            int numOfUploadedFiles = numberOfUploadedFilesAfter - numberOfUploadedFilesBefore;
+															            if(  waiting / Integer.parseInt( operationParams.params.get("file_duration")) <=numOfUploadedFiles )
+															            return new DriverReslut("The correct number of uploaded files was found");
 	            break;     
+		        
 		        default: 											 return new DriverReslut("Operation is not found");
 	        }
-		return new DriverReslut("The object assumed to be deleted from AWS s3 bucket"); 
+        return new DriverReslut("Operation is not found");
 	}
+	
 	
 	public static void main(String[] args) throws Exception  {
 		AwsConnectorDriver connectorDriver  = new AwsConnectorDriver();
