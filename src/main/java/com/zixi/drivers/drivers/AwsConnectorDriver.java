@@ -97,7 +97,7 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 															            if(  waiting / ( Integer.parseInt( operationParams.params.get("file_duration")) ) <= numOfUploadedFiles )
 															            	return new DriverReslut("The correct number of uploaded files was found");
 															            else  return new DriverReslut("Number of uploaded files is " + numOfUploadedFiles + " but should be "
-															            		+  waiting / ( Integer.parseInt( operationParams.params.get("file_duration") + " at least" )));
+															            		+  (waiting / ( Integer.parseInt( operationParams.params.get("file_duration")) + " at least" )));
 		        
 		        default: 											 return new DriverReslut("Operation is not found");
 	        }
