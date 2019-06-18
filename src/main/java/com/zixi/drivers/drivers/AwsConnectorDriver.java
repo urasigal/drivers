@@ -89,7 +89,7 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 																        objectSummeryList =  objectList.getObjectSummaries();
 															            int numberOfUploadedFilesBefore =  objectSummeryList.size();
 															            int waiting  = Integer.parseInt( operationParams.params.get("test_duration"));
-															            Thread.sleep( waiting * 1000 );
+															            Thread.sleep(( waiting * 1000)  + ( Integer.parseInt( operationParams.params.get("file_duration") )  /  2 ));
 															            objectList =   s3.listObjects( operationParams.params.get("bucketName"), operationParams.params.get("prefix"));
 																        objectSummeryList =  objectList.getObjectSummaries();
 															            int numberOfUploadedFilesAfter =  objectSummeryList.size();
@@ -97,7 +97,7 @@ public class AwsConnectorDriver extends BroadcasterLoggableApiWorker
 															            if(  waiting / ( Integer.parseInt( operationParams.params.get("file_duration")) ) <= numOfUploadedFiles )
 															            	return new DriverReslut("The correct number of uploaded files was found");
 															            else  return new DriverReslut("Number of uploaded files is " + numOfUploadedFiles + " but should be "
-															            		+  (waiting / ( Integer.parseInt( operationParams.params.get("file_duration")) + " at least" )));
+															            		+  (waiting /  Integer.parseInt( operationParams.params.get("file_duration")) + " at least" ));
 		        
 		        default: 											 return new DriverReslut("Operation is not found");
 	        }
